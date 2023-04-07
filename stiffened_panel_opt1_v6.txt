@@ -1,0 +1,201 @@
+!!---------------------------
+!! STIFFENED COMPOSITE PLATE
+!! 5-PLY PLATE
+!! 5-PLY STIFFENER
+!!---------------------------
+/PREP7
+!!---------------------
+!! GEOMETRIC PARAMETERS
+!!---------------------
+L = 1.0 !-> LENGTH OF PLATE
+B = 0.4 !-> WIDTH OF PLATE
+!FD = 0.3 !-> DISTANCE BETWEEN FRAMES
+BF_T = 0.05 !-> WIDTH OF FRAME AT TOP
+BF_B = 0.06 !-> WIDTH OF FRAME AT BOTTOM
+BF_A = 0.018 !-> WIDTH OF ADDED PART ON THE PLATE
+HF = 0.05 !-> HEIGHT OF THE FRAME
+TH_LAYER = 0.004 !-> THICKNESS OF A LAYER
+TH1_P = 90
+TH2_P = 90
+TH3_P = 0
+! TH1_S = 45
+! TH2_S = 90
+! TH3_S = -45
+!!--------------------
+!! MATERIAL PARAMETERS
+!!--------------------
+EXX = 35E9
+EYY = 9E9
+EZZ = 9E9
+NUXY = 0.28
+NUYZ = 0.4
+NUXZ = 0.28
+SMXY = 4.7E9
+SMYZ = 3.5E9
+SMXZ = 4.7E9
+RHO = 1850
+!!---------------
+!! ELEMENT TYPE
+!!---------------
+ET,1,SHELL181
+KEYOPT,1,8,2 !-> Data Storage MID/BOT/TOP
+!!----------------------
+!! MATERIAL PROPERTIES
+!!----------------------
+MPTEMP,,,,,,,,  
+MPTEMP,1,0  
+MPDATA,EX,1,,EXX
+MPDATA,EY,1,,EYY 
+MPDATA,EZ,1,,EZZ
+MPDATA,PRXY,1,,NUXY
+MPDATA,PRYZ,1,,NUYZ
+MPDATA,PRXZ,1,,NUXZ  
+MPDATA,GXY,1,,SMXY
+MPDATA,GYZ,1,,SMYZ
+MPDATA,GXZ,1,,SMXZ
+MPTEMP,,,,,,,,  
+MPTEMP,1,0  
+MPDATA,DENS,1,,RHO
+!!-----------
+!! SECTIONS
+!!-----------
+sect,1,shell,,
+secdata,TH_LAYER,1,90,3  
+secdata,TH_LAYER,1,TH1_P,3  
+secdata,TH_LAYER,1,TH2_P,3   
+secdata,TH_LAYER,1,TH3_P,3   
+secdata,TH_LAYER,1,0,3  
+secoffset,TOP   
+seccontrol,,,,,,,
+sect,2,shell,,  
+secdata,TH_LAYER,1,90,3
+secdata,TH_LAYER,1,TH1_P,3  
+secdata,TH_LAYER,1,TH2_P,3   
+secdata,TH_LAYER,1,TH3_P,3   
+secdata,TH_LAYER,1,0,3
+secoffset,BOT   
+seccontrol,,,,,,,
+sect,3,shell,,  
+secdata,TH_LAYER,1,90,3
+secdata,TH_LAYER,1,TH1_P,3  
+secdata,TH_LAYER,1,TH2_P,3   
+secdata,TH_LAYER,1,TH3_P,3   
+secdata,TH_LAYER,1,0,3
+secdata,TH_LAYER,1,90,3  
+secdata,TH_LAYER,1,TH1_P,3  
+secdata,TH_LAYER,1,TH2_P,3   
+secdata,TH_LAYER,1,TH3_P,3   
+secdata,TH_LAYER,1,0,3 
+secoffset,MID   
+seccontrol,,,,,,,
+!!-----------
+!! GEOMETRY
+!!-----------
+K,1,0,0,0
+K,2,0.05-BF_B/2-BF_A,0,0
+K,3,0.05-BF_B/2,0,0
+K,4,0.05-BF_T/2,0,HF
+K,5,0.05+BF_T/2,0,HF
+K,6,0.05+BF_B/2,0,0
+K,7,0.05+BF_B/2+BF_A,0,0
+K,8,B-0.05-BF_B/2-BF_A,0,0
+K,9,B-0.05-BF_B/2,0,0
+K,10,B-0.05-BF_T/2,0,HF
+K,11,B-0.05+BF_T/2,0,HF
+K,12,B-0.05+BF_B/2,0,0
+K,13,B-0.05+BF_B/2+BF_A,0,0
+K,14,B,0,0
+K,15,0,L,0
+K,16,0.05-BF_B/2-BF_A,L,0
+K,17,0.05-BF_B/2,L,0
+K,18,0.05-BF_T/2,L,HF
+K,19,0.05+BF_T/2,L,HF
+K,20,0.05+BF_B/2,L,0
+K,21,0.05+BF_B/2+BF_A,L,0
+K,22,B-0.05-BF_B/2-BF_A,L,0
+K,23,B-0.05-BF_B/2,L,0
+K,24,B-0.05-BF_T/2,L,HF
+K,25,B-0.05+BF_T/2,L,HF
+K,26,B-0.05+BF_B/2,L,0
+K,27,B-0.05+BF_B/2+BF_A,L,0
+K,28,B,L,0
+*DO,I,0,12,1
+A,1+I,2+I,16+I,15+I
+*ENDDO
+A,3,6,20,17
+A,9,12,26,23
+!!--------------------
+!! SECTION ASSIGNMENT
+!!--------------------
+ASEL,S,LOC,X,0.05-BF_B/2-BF_A,0.05-BF_B/2
+AATT,1,,1,0,3
+ASEL,S,LOC,X,0.05+BF_B/2,0.05+BF_B/2+BF_A
+AATT,1,,1,0,3
+ASEL,S,LOC,X,B-0.05-BF_B/2-BF_A,B-0.05-BF_B/2
+AATT,1,,1,0,3
+ASEL,S,LOC,X,B-0.05+BF_B/2,B-0.05+BF_B/2+BF_A
+AATT,1,,1,0,3
+ASEL,S,LOC,Z,0.01,HF
+AATT,1,,1,0,2
+ALLSEL,ALL
+!!-------
+!! MESH
+!!-------
+AESIZE,ALL,0.01
+AMESH,ALL
+!!----------------------
+!! BOUNDARY CONDITIONS
+!!----------------------
+NSEL,S,LOC,Y,0,0
+D,ALL,UX,0
+D,ALL,UY,0
+D,ALL,UZ,0
+D,ALL,ROTY,0
+D,ALL,ROTZ,0
+NSEL,S,LOC,Y,L,L
+D,ALL,UX,0
+D,ALL,UY,0
+D,ALL,UZ,0
+D,ALL,ROTY,0
+D,ALL,ROTZ,0
+ALLSEL,ALL
+ESEL,S,CENT,Z,0,0
+SFE,ALL,1,PRES,,113000,
+ALLSEL,ALL
+FINISH  
+/SOL
+/STATUS,SOLU
+SOLVE   
+FINISH  
+/POST1
+/DSCALE,ALL,1 ! Use true scale (scale displacements by 1.0)
+SET,LAST! read the last data set
+
+FC,1,S,XTEN,31000000
+FC,1,S,YTEN,780000000   
+FC,1,S,ZTEN,31000000
+FC,1,S,XCMP,-100000000  
+FC,1,S,YCMP,-480000000  
+FC,1,S,ZCMP,-100000000  
+FC,1,S,XY,60000000  
+FC,1,S,YZ,60000000  
+FC,1,S,XZ,35000000  
+FC,1,S,XYCP,-1  
+FC,1,S,YZCP,-1  
+FC,1,S,XZCP,-1  
+!*  
+FC,1,EPEL,XTEN,0.0038   
+FC,1,EPEL,YTEN,0.0244   
+FC,1,EPEL,ZTEN,0.0038   
+FC,1,EPEL,XCMP,-0.0125  
+FC,1,EPEL,YCMP,-0.015   
+FC,1,EPEL,ZCMP,-0.0125  
+FC,1,EPEL,XY,0.015  
+FC,1,EPEL,YZ,0.015  
+FC,1,EPEL,XZ,0.012
+
+NSORT,FAIL,TWSI,0,1,,
+*GET,ITW,SORT,0,MAX,,,
+ETABLE,,VOLU,,
+SSUM
+*GET,TOTVOL,SSUM,0,ITEM,VOLU
