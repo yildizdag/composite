@@ -1,1 +1,1 @@
-# composite
+ANSYS Mechanical APDL code
